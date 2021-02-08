@@ -1,4 +1,5 @@
-const userModel = require('../database/model/user');
+const userModel = require('../database/models/user');
+const userManager = require('../database/userManager')
 var express = require('express');
 var router = express.Router();
 
@@ -15,29 +16,29 @@ const getUser = async (user_id, response) => {
 /* GET users listing. */
 router.get('/:id', function (req, res, next) {
   var user1 = req.params.id;
-  // create an async function
-  // call the async function
-  getUser(user1, res); 
 
-  // direct calling arrow functions
-/*   ((param1, param2) => {
-    console.log("arrow function direct calling....")
-    console.log("param1 : ", param1);
-    console.log("param2 : ", param2);
-  })(user1, "I'm P2"); */
-  //res.send('respond with a resource');
-
-/*   (async (user_id) => {
-    let ret = await userModel.findOne({
-      where: {
-        id: user_id
-      }
+  userManager.getUser(user1)
+    .then((result) => {
+      res.send(result.dataValues);
     })
+    .catch(err => res.send("not found"));
 
-    console.log("alternative call...");
-    res.send(ret);
-  }) (user1); */
+});
 
+router.post('/', function (req, res, next) {
+  userManager.createUser(req.body)
+    .then((result) => {
+      res.send('created : ' + result.dataValues);
+    })
+    .catch(err => res.send('created fail'));
+
+});
+
+router.delete('/:id', function (req, res, next) {
+  var user1 = req.params.id;
+  userManager.deleteUser(user1)
+    .then(res.send('deleted'))
+    .catch(err => res.send('delete fail'));
 });
 
 module.exports = router;
