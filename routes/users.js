@@ -1,4 +1,4 @@
-const userModel = require('../database/user');
+const userModel = require('../database/model/user');
 var express = require('express');
 var router = express.Router();
 
