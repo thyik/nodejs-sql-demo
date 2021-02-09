@@ -18,8 +18,8 @@ router.get('/:id', function (req, res, next) {
   var user1 = req.params.id;
 
   userManager.getUser(user1)
-    .then((result) => {
-      res.send(result.dataValues);
+    .then((data) => {
+      res.send(data.dataValues);
     })
     .catch(err => res.send("not found"));
 
