@@ -47,26 +47,18 @@ const updateBalance = async (_account) => {
     let ret;
     try {
         const result = await db.transaction(async (t) => {
-            // get current balance
+            // select account
             acc = await accountModel.findOne({
                 where: { id: _account.id },
                 transaction: t
             });
             // add new balance
-            ret = await accountModel.update({
-                id: _account.id,
-                balance: acc.balance + _account.balance
-            }, {
-                where: { id: _account.id }
-            },
-                {
-                    transaction: t
-                });
+            acc.balance += _account.balance;
+
+            await acc.save();
+
             // refresh updated balance
-            ret = await accountModel.findOne({
-                where: { id: _account.id },
-                transaction: t
-            });
+            ret = acc.toJSON();
 
         });
 

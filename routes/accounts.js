@@ -32,7 +32,7 @@ router.put('/:id', function (req, res, next) {
     accountManager.updateBalance(req.body)
         .then((data) => {
             console.log('then');
-            res.send(data.dataValues);
+            res.send(data===undefined ? 'update fail' : data);
         })
         .catch(err => res.send("not found"));
 
