@@ -1,4 +1,3 @@
-const accountModel = require('../database/models/account');
 const accountManager = require('../database/accountManager')
 var express = require('express');
 var router = express.Router();
