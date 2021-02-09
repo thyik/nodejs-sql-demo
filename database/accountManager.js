@@ -1,6 +1,6 @@
 const db = require('./database');
 const accountModel = require('./models/account');
-
+const datetime_tool = require('../utils/datetime_tool')
 
 // create new record
 
@@ -54,7 +54,7 @@ const updateBalance = async (_account) => {
       });
       // add new balance
       acc.balance += _account.balance;
-
+      acc.modify_datetime = datetime_tool.getTimestamp(Date.now());
       await acc.save();
 
       // refresh updated balance

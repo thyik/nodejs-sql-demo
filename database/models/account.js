@@ -19,6 +19,11 @@ const account = db.define('account', {
     type: Sequelize.BIGINT,
     allowNull: false,
     defaultValue: 0
+  },
+  modify_datetime: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    defaultValue: 0
   }
 }, {
   timestamps: false,
@@ -26,6 +31,9 @@ const account = db.define('account', {
   tableName: 'account'
 });
 
+// create if not exist
 account.sync();
+// drop and recreate
+//account.sync({ force: true });
 
 module.exports = account;
