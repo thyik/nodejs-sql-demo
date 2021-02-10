@@ -162,5 +162,97 @@ user
    
    ```
 
-   
+## VSCode debug
 
+[Reference](https://vscode.readthedocs.io/en/latest/nodejs/nodejs-debugging/)
+
+create `launch.json` in `.vscode` folder
+
+Attach to process
+
+```json
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "request": "attach",
+      "type": "node"
+    }]
+ }
+```
+
+
+
+Debug single file
+
+```json
+    {
+      "name": "Debug current file",
+      "program": "${file}",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    }
+```
+
+
+
+Debug progam
+
+```json
+   {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\bin\\www"
+    }
+```
+
+
+
+Remote debugging
+
+[Reference](https://maikthulhu.github.io/2019-05-17-remote-debugging-node-vscode/)
+
+```json
+    {
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "name": "Attach to Remote",
+      "port": 9229,
+      "remoteRoot": null,
+      "request": "attach",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
+```
+
+
+
+run nodejs program. **Don't run from vscode terminal. this will not work**
+
+```sh
+$ node --inspect-brk ./bin/www
+
+> node --inspect-brk ./bin/www
+
+Debugger listening on ws://127.0.0.1:9229/dce127a4-322b-4a69-8f7c-2d60c94395de
+For help, see: https://nodejs.org/en/docs/inspector
+```
+
+run vscode debugger **Attach to Remote** configuration
+
+use ssh tunneling to map the remote address 9229 to localhost:9229
