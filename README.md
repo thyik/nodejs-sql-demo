@@ -101,3 +101,66 @@ Create a table in mysql
 
 user
 
+## NodeJS configuration file
+
+1. Create sub folder `config`
+
+2. Install nodejs `config` dependency [package](https://www.npmjs.com/package/config)
+
+   ```sh
+   $ npm install config --save
+   ```
+
+   
+
+3. code to load from `default.json`
+
+   ```js
+   const config = require('config');
+   const { database, host, port, username, password } = config.sql;
+   ```
+
+   
+
+4. create `default.json` inside the `config` folder for default configuration
+
+   ```json
+   {
+     "sql": {
+       "database": "mytestdb",
+       "port": 3306,
+       "host": "localhost",
+       "username": "root",
+       "password": "root"
+     }
+   }
+   ```
+
+   
+
+5. create `production.json` in the `config` folder for custom production configuration setting
+
+   ```json
+   {
+     "sql": {
+       "password": "root"
+     }
+   }
+   ```
+
+6. set environment variable `NODE_ENV` to load the `production.json` setting
+
+   ```sh
+   // powershell
+   PS> $Env:NODE_ENV='production'
+   
+   // cmd
+   D:/> set NODE_ENV=production
+   
+   // linux
+   $ export NODE_ENV=production
+   
+   ```
+
+   
+
