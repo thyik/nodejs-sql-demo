@@ -6,7 +6,11 @@ const datetime_tool = require('../utils/datetime_tool')
 /**
  * Create new account
  * 
- * @param {account} _account - account info {id, userid, balance}
+ * @param {Object} _account - account info {id, userid, balance}
+ * @param {number} _account.id - account id
+ * @param {string} _account.userid - account userid
+ * @param {number} _account.balance - balance to set
+ * @returns {Object} created account
  */
 const createAccount = async (_account) => {
   let ret;
@@ -56,7 +60,9 @@ const getAccount = async (_id) => {
 /**
  * update user account
  * 
- * @param {*} _account - account info {id, userid, balance} to update
+ * @param {Object} _account - account info {id, userid, balance} to update
+ * @param {number} _account.id - account id
+ * @param {number} _account.balance - balance to add on
  */
 const updateBalance = async (_account) => {
   let ret;
@@ -95,7 +101,9 @@ const updateBalance = async (_account) => {
 /**
  * update account using instance method
  * 
- * @param {account} _account - account info {id, userid, balance} to update
+ * @param {Object} _account - account info {id, userid, balance} to update
+ * @param {number} _account.id - account id
+ * @param {number} _account.balance - balance to add on
  */
 const updateBalanceInstance = async (_account) => {
   let ret;
