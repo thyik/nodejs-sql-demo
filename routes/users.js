@@ -1,5 +1,5 @@
 const userModel = require('../database/models/user');
-const userManager = require('../database/userManager')
+const userManager = require('../database/user_manager')
 var express = require('express');
 var router = express.Router();
 

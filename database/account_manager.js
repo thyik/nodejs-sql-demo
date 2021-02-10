@@ -3,8 +3,11 @@ const Sequelize = require('sequelize');
 const accountModel = require('./models/account');
 const datetime_tool = require('../utils/datetime_tool')
 
-// create new record
-
+/**
+ * Create new account
+ * 
+ * @param {account} _account - account info {id, userid, balance}
+ */
 const createAccount = async (_account) => {
   let ret;
   try {
@@ -12,7 +15,8 @@ const createAccount = async (_account) => {
       ret = await accountModel.create({
         id: _account.id,
         userid: _account.userid,
-        balance: _account.balance
+        balance: _account.balance,
+        modify_datetime: datetime_tool.getTimestamp(Date.now())
       });
     });
   } catch (e) {
@@ -24,6 +28,11 @@ const createAccount = async (_account) => {
   return ret;
 }
 
+/**
+ * Get account infor by id
+ * 
+ * @param {number} _id - account id
+ */
 const getAccount = async (_id) => {
   let ret;
   try {
@@ -44,6 +53,11 @@ const getAccount = async (_id) => {
   return ret;
 }
 
+/**
+ * update user account
+ * 
+ * @param {*} _account - account info {id, userid, balance} to update
+ */
 const updateBalance = async (_account) => {
   let ret;
   try {
@@ -78,6 +92,11 @@ const updateBalance = async (_account) => {
   return ret;
 }
 
+/**
+ * update account using instance method
+ * 
+ * @param {account} _account - account info {id, userid, balance} to update
+ */
 const updateBalanceInstance = async (_account) => {
   let ret;
   try {
@@ -106,6 +125,11 @@ const updateBalanceInstance = async (_account) => {
   return ret;
 }
 
+/**
+ * delete account by id
+ * 
+ * @param {number} _id - account id
+ */
 const deleteAccount = async (_id) => {
   await accountModel.destroy({
     where: {

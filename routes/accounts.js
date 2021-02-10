@@ -1,4 +1,4 @@
-const accountManager = require('../database/accountManager')
+const accountManager = require('../database/account-manager')
 var express = require('express');
 var router = express.Router();
 
