@@ -148,7 +148,13 @@ user
    }
    ```
 
-6. set environment variable `NODE_ENV` to load the `production.json` setting
+6. Without setting environment variable, the custom configuration file will be chosen in the following order. Only parameter define in the custom file will be overwritten
+
+   1. local.json
+   2. development.json
+   3. production.json - need to set environment variable `NODE_ENV=production`
+   
+7. set environment variable `NODE_ENV` to load the `production.json` setting
 
    ```sh
    // powershell
@@ -161,6 +167,53 @@ user
    $ export NODE_ENV=production
    
    ```
+
+   ```sh
+   
+   // show environment variables
+   PS> dir env.
+   
+   // show NODE_ENV setting
+   PS> $enc:NODE_ENV 
+   ```
+
+   
+
+8. create `.env` at root folder to set environment variable in a file
+
+   ```sh
+   $ npm i dotenv
+   ```
+
+   `app.js` to load the `.env` file
+
+   ```nodejs
+   require('dotenv').config()
+   ```
+
+   `.env`
+
+   ```ini
+   # This will take production.json as configuration file
+   NODE_ENV=production
+   
+   # This will take developemt.json as configuration file
+   NODE_ENV=development
+   
+   # This set the config folder to `C:/home/config/wallet-api`
+   NODE_CONFIG_DIR=/home/config/wallet-api
+   ```
+
+   
+
+9. Alternatively, overwrite default config folder programmatically
+
+   ```nodejs
+   process.env["NODE_CONFIG_DIR"] = __dirname + "/configDir/";
+   const config = require("config");
+   ```
+
+   
 
 ## VSCode debug
 

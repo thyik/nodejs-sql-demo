@@ -1,7 +1,10 @@
+
+
 const db = require('./database');
 const Sequelize = require('sequelize');
 const accountModel = require('./models/account');
-const datetime_tool = require('../utils/datetime_tool')
+const datetime_tool = require('../utils/datetime_tool');
+const { Locked } = require('http-errors');
 
 /**
  * Create new account
@@ -65,7 +68,7 @@ const getAccount = async (_id) => {
  * @param {number} _account.balance - balance to add on
  */
 const updateBalance = async (_account) => {
-  let ret;
+  let ret = '';
   try {
     const result = await db.transaction(async (t) => {
       // add new balance
@@ -106,18 +109,22 @@ const updateBalance = async (_account) => {
  * @param {number} _account.balance - balance to add on
  */
 const updateBalanceInstance = async (_account) => {
-  let ret;
+  let ret = '';
   try {
     const result = await db.transaction(async (t) => {
       // select account
       acc = await accountModel.findOne({
         where: { id: _account.id },
-        transaction: t
+        transaction: t,
+        lock: t.LOCK.UPDATE
+
       });
+
+      // t.LOCK.SHARE : allow other to read
+      // t.LOCK.UPDATE : disallow read by other
+      //
       // add new balance
-      acc.balance += _account.balance;
-      acc.modify_datetime = datetime_tool.getTimestamp(Date.now());
-      await acc.save();
+      await saveData(_account, t);
 
       // refresh updated balance
       ret = acc.toJSON();
@@ -147,3 +154,10 @@ const deleteAccount = async (_id) => {
 }
 
 module.exports = { createAccount, getAccount, updateBalance, updateBalanceInstance, deleteAccount };
+
+async function saveData(_account, t) {
+  acc.balance += _account.balance;
+  acc.modify_datetime = datetime_tool.getTimestamp(Date.now());
+  await acc.save({ transaction: t });
+}
+
